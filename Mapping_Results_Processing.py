@@ -3,6 +3,11 @@
 #Import required libraries
 import pandas as pd
 import sys
+import argparse
+
+##Positional arguments and command lines options: 
+parser = argparse.ArgumentParser()
+parser.parse_args()
 
 ##MISSING: ARGPARSE!! command line arguments (mapstat file / res file / genus or specie option / total reads / minimal number of barcodes)
 #Total read count from the sample - ask it as an input? 
@@ -81,4 +86,5 @@ relative_read_abundance = [x / total_read_count for x in data_by_genus_no_single
 data_by_genus_no_single_barcode["Relative read abundance"] = relative_read_abundance
 final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance"], ascending = False)
 
-##MISSING: WRITTING OUTPUT FILE BASED ON final_results DATAFRAME
+##Write final dataframe into a tab-separated file:
+final_results.to_csv("Final_Results_Test.txt", sep = "\t")
