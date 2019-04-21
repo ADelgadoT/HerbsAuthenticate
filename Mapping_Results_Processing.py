@@ -7,18 +7,42 @@ import argparse
 
 ##Positional arguments and command lines options: 
 parser = argparse.ArgumentParser()
-parser.parse_args()
+
+#Mapstat file input:
+parser.add_argument("mapstat_file", help='Path to mapstat file')
+
+#Res file input:
+parser.add_argument("res_file", help='Path to res file')
+
+#Total read count: 
+parser.add_argument("reads", type=int, help='sample total reads')
+
+#Output path:
+parser.add_argument("output_path", help='Output file folder')
+
+#Sample name:
+parser.add_argument("sample_name", help='Sample name')
+
+#Merge by genus or species: 
+parser.add_argument("-g", "--genus", help="Estimate the relative read abundance based on genus")
+
+#Minimum number of barcodes to consider a result correct: 
+parser.add_argument("-b", "--barcodes", type=int, help="Minimum number of barcodes to consider a result a true positive", default=2)
+
+#Argument parser:
+args = parser.parse_args()
 
 ##MISSING: ARGPARSE!! command line arguments (mapstat file / res file / genus or specie option / total reads / minimal number of barcodes)
 #Total read count from the sample - ask it as an input? 
-total_read_count = 155751012
+total_read_count = args.reads
 
 ##Data files import as a data frame: 
 #MAPSTAT file: 
-mapstat_infile = pd.read_csv("Tomato_Mapping.mapstat", sep = "\t", skiprows = [1,5], usecols = ["# refSequence", "readCount"])
+mapstat_infile = pd.read_csv(args.mapstat_file, sep = "\t", skiprows = range(0,6))
+mapstat_infile = mapstat_infile[["# refSequence", "readCount"]]
 
 #RES file: 
-res_infile = pd.read_csv("Tomato_IBol.res", sep = "\t", usecols = ["#Template", "Score", "Template_Coverage", "Depth"])
+res_infile = pd.read_csv(args.res_file, sep = "\t", usecols = ["#Template", "Score", "Template_Coverage", "Depth"])
 
 #Merge MAPSTAT and RES dataframes: 
 merged_data = pd.merge(res_infile, mapstat_infile, how = 'outer', left_on='#Template', right_on='# refSequence')
@@ -79,7 +103,7 @@ aggregation = {'Score':'sum', 'Template_Coverage':'sum', 'Depth':'sum', 'readCou
 data_by_genus = grouped_data.sort_values(by=["Label"]).groupby(["Label"]).agg(aggregation)
 
 #Exclude data entries with only one identified barcode to avoid false positives:
-data_by_genus_no_single_barcode = data_by_genus[(data_by_genus["Number Barcodes"])>1]
+data_by_genus_no_single_barcode = data_by_genus[(data_by_genus["Number Barcodes"])>((args.barcodes-1))]
 
 #Obtain the relative read count and sort: 
 relative_read_abundance = [x / total_read_count for x in data_by_genus_no_single_barcode["readCount"]]
