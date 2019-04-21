@@ -24,7 +24,7 @@ parser.add_argument("output_path", help='Output file folder')
 parser.add_argument("sample_name", help='Sample name')
 
 #Merge by genus or species: 
-parser.add_argument("-g", "--genus", help="Estimate the relative read abundance based on genus")
+parser.add_argument("-g", "--genus", help="Estimate the relative read abundance based on genus", default=True)
 
 #Minimum number of barcodes to consider a result correct: 
 parser.add_argument("-b", "--barcodes", type=int, help="Minimum number of barcodes to consider a result a true positive", default=2)
@@ -64,7 +64,12 @@ genus_add = list()
 for label in description: 
     col = label.split("|")
     genus = col[1]
-       
+    
+    #If merging results by genus is True: 
+    if args.g:
+        split_genus_specie = genus.split()
+        genus = split_genus_specie[0]
+
     #Update genus and barcodes list:
     genus_add.append(genus)
     barcode_add.append(col[2])
