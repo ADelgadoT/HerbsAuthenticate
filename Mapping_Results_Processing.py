@@ -111,4 +111,5 @@ data_by_genus_no_single_barcode["Relative read abundance"] = relative_read_abund
 final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance"], ascending = False)
 
 ##Write final dataframe into a tab-separated file:
-final_results.to_csv("Final_Results_Test.txt", sep = "\t")
+output_name = args.output_path + '\\' + args.sample_name + '_Results_Mapping.txt'
+final_results.to_csv(output_name, sep = "\t")
