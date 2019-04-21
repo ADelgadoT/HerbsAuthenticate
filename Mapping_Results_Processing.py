@@ -15,7 +15,7 @@ parser.add_argument("mapstat_file", help='Path to mapstat file')
 parser.add_argument("res_file", help='Path to res file')
 
 #Total read count: 
-parser.add_argument("reads", type=int, help='sample total reads')
+parser.add_argument("reads", type=int, help='Sample total reads')
 
 #Output path:
 parser.add_argument("output_path", help='Output file folder')
@@ -32,8 +32,7 @@ parser.add_argument("-b", "--barcodes", type=int, help="Minimum number of barcod
 #Argument parser:
 args = parser.parse_args()
 
-##MISSING: ARGPARSE!! command line arguments (mapstat file / res file / genus or specie option / total reads / minimal number of barcodes)
-#Total read count from the sample - ask it as an input? 
+#Total read count from the sample: 
 total_read_count = args.reads
 
 ##Data files import as a data frame: 
@@ -58,15 +57,13 @@ description = clean_data["# refSequence"]
 barcode_add = list()
 genus_add = list()
 
-
-##HERE IT MUST BE MODIFIED TO INCLUDE GENUS / SPECIE GROUPING!!
 #Iterate over the raw results to extract relevant data regarding the genus/specie and barcodes: 
 for label in description: 
     col = label.split("|")
     genus = col[1]
     
     #If merging results by genus is True: 
-    if args.g:
+    if args.genus:
         split_genus_specie = genus.split()
         genus = split_genus_specie[0]
 
@@ -116,5 +113,5 @@ data_by_genus_no_single_barcode["Relative read abundance"] = relative_read_abund
 final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance"], ascending = False)
 
 ##Write final dataframe into a tab-separated file:
-output_name = args.output_path + '\\' + args.sample_name + '_Results_Mapping.txt'
+output_name = args.output_path + '/' + args.sample_name + '_Results_Mapping.txt'
 final_results.to_csv(output_name, sep = "\t")
