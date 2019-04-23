@@ -1,6 +1,6 @@
 ### Prep_Barcode_Generation_BM.py generates all kma scripts to generate their barcodes. They will also output the execution time for benchmarking purposes
 
-def prep_kma(path_forward_reads, path_reverse_reads, sample_name, kma_script_model)
+def prep_kma(path_forward_reads, path_reverse_reads, sample_name, kma_script_model):
 
     #Extract data from input file and create script: 
     kma_script = open(kma_script_model, 'r')
