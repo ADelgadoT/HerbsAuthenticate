@@ -1,1 +1,1 @@
-/home/projects/cge/analysis/plant_metagenomics/kma/kma -ipe path_R1 path_R2 -i path_R1 -t_db /home/projects/cge/data/plants_authenticity/IBol_Barcodes -mem_mode -1t1 -ef -t 4 -o /home/projects/cge/analysis/plant_metagenomics/test_Mapping_pipeline/sample_name_Mapping
+kma_dir -ipe path_R1 path_R2 -i path_R1 -t_db database -mem_mode -1t1 -ef -t 4 -o out_dir/sample_name_Mapping
