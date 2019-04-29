@@ -1,6 +1,6 @@
 ### Function to std headers from obtained barcodes fasta file: 
 
-def header_std(fasta_file, specie_name, total_barcodes, output_dir)
+def header_std(fasta_file, specie_name, total_barcodes, output_dir):
 	
 	#Import data and variables: 
 	input_file = open(fasta_file, 'r')
