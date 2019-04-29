@@ -11,7 +11,7 @@ import yaml
 #Update path and import scripts:
 sys.path.insert(0, "./scripts")
 import Mapping_Results_Processing
-import Prep_Barcode_Generation_BM
+import Prep_KMA
 
 #Read config file and parse variables:
 with open("config.yaml", "r") as ymlfile:
@@ -35,7 +35,7 @@ for line in sample_data:
 	#print(int(s))
 	
 	##Prepare kma script and execute it: 
-	kma = Prep_Barcode_Generation_BM.prep_kma(col[0], col[1], col[2], "./scripts/mapping_model.sh", kma_path, db_path, output_dir)
+	kma = Prep_KMA.prep_kma(col[0], col[1], col[2], "./scripts/mapping_model.sh", kma_path, db_path, output_dir)
 	
 	execute_kma = subprocess.Popen(kma, shell=True)
 	execute_kma.communicate()

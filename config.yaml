@@ -1,6 +1,7 @@
 path:
   kma: /home/projects/cge/analysis/plant_metagenomics/kma/kma
   db: /home/projects/cge/data/plants_authenticity/IBol_Barcodes
+  db_backbone: /home/projects/cge/data/plants_authenticity/Backbone_magnoliophyta
   output: /home/projects/cge/analysis/plant_metagenomics/test_Mapping_pipeline
 
 reads:
