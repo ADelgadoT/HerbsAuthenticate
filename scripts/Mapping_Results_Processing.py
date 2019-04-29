@@ -3,46 +3,46 @@
 #Import required libraries
 import pandas as pd
 import sys
-import argparse
+#import argparse
 
-def map():
+def map(mapstat_file, res_file, reads, output_path, sample_name, genus, min_barcodes):
     ##Positional arguments and command lines options: 
-    parser = argparse.ArgumentParser()
+    #parser = argparse.ArgumentParser()
 
     #Mapstat file input:
-    parser.add_argument("mapstat_file", help='Path to mapstat file')
+    #parser.add_argument("mapstat_file", help='Path to mapstat file')
 
     #Res file input:
-    parser.add_argument("res_file", help='Path to res file')
+    #parser.add_argument("res_file", help='Path to res file')
 
     #Total read count: 
-    parser.add_argument("reads", type=int, help='Sample total reads')
+    #parser.add_argument("reads", type=int, help='Sample total reads')
 
     #Output path:
-    parser.add_argument("output_path", help='Output file folder')
+    #parser.add_argument("output_path", help='Output file folder')
 
     #Sample name:
-    parser.add_argument("sample_name", help='Sample name')
+    #parser.add_argument("sample_name", help='Sample name')
 
     #Merge by genus or species: 
-    parser.add_argument("-g", "--genus", help="Estimate the relative read abundance based on genus", default=True)
+    #parser.add_argument("-g", "--genus", help="Estimate the relative read abundance based on genus", default=True)
 
     #Minimum number of barcodes to consider a result correct: 
-    parser.add_argument("-b", "--barcodes", type=int, help="Minimum number of barcodes to consider a result a true positive", default=2)
+    #parser.add_argument("-b", "--barcodes", type=int, help="Minimum number of barcodes to consider a result a true positive", default=2)
 
     #Argument parser:
-    args = parser.parse_args()
+    #args = parser.parse_args()
 
     #Total read count from the sample: 
-    total_read_count = args.reads
+    total_read_count = reads
 
     ##Data files import as a data frame: 
     #MAPSTAT file: 
-    mapstat_infile = pd.read_csv(args.mapstat_file, sep = "\t", skiprows = range(0,6))
+    mapstat_infile = pd.read_csv(mapstat_file, sep = "\t", skiprows = range(0,6))
     mapstat_infile = mapstat_infile[["# refSequence", "readCount"]]
 
     #RES file: 
-    res_infile = pd.read_csv(args.res_file, sep = "\t", usecols = ["#Template", "Score", "Template_Coverage", "Depth"])
+    res_infile = pd.read_csv(res_file, sep = "\t", usecols = ["#Template", "Score", "Template_Coverage", "Depth"])
 
     #Merge MAPSTAT and RES dataframes: 
     merged_data = pd.merge(res_infile, mapstat_infile, how = 'outer', left_on='#Template', right_on='# refSequence')
@@ -64,7 +64,7 @@ def map():
         genus = col[1]
         
         #If merging results by genus is True: 
-        if args.genus:
+        if genus:
             split_genus_specie = genus.split()
             genus = split_genus_specie[0]
 
@@ -106,7 +106,7 @@ def map():
     data_by_genus = grouped_data.sort_values(by=["Label"]).groupby(["Label"]).agg(aggregation)
 
     #Exclude data entries with only one identified barcode to avoid false positives:
-    data_by_genus_no_single_barcode = data_by_genus[(data_by_genus["Number Barcodes"])>((args.barcodes-1))]
+    data_by_genus_no_single_barcode = data_by_genus[(data_by_genus["Number Barcodes"])>((min_barcodes-1))]
 
     #Obtain the relative read count and sort: 
     relative_read_abundance = [x / total_read_count for x in data_by_genus_no_single_barcode["readCount"]]
@@ -114,5 +114,5 @@ def map():
     final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance"], ascending = False)
 
     ##Write final dataframe into a tab-separated file:
-    output_name = args.output_path + '/' + args.sample_name + '_Results_Mapping.txt'
+    output_name = output_path + '/' + sample_name + '_Results_Mapping.txt'
     final_results.to_csv(output_name, sep = "\t")

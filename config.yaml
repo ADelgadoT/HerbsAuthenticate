@@ -1,0 +1,11 @@
+path:
+  kma: /home/projects/cge/analysis/plant_metagenomics/kma/kma
+  db: /home/projects/cge/data/plants_authenticity/IBol_Barcodes
+  output: /home/projects/cge/analysis/plant_metagenomics/test_Mapping_pipeline
+
+reads:
+  PE/SE: PE
+
+mapping:
+  merge_by_genus: True
+  min_barcodes: 2

@@ -1,0 +1,1 @@
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Vanilla_planifolia_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Vanilla_planifolia_2.fastq.gz Vanilla
