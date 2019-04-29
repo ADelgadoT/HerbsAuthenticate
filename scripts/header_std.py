@@ -9,12 +9,12 @@ def header_std(fasta_file, specie_name, total_barcodes, output_dir):
 	total_number_barcodes = str(total_barcodes)
 
 	for line in input_file: 
-    if line[0] == '>':
-        col = line.split("_")
-        header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
-        print(header, file=output_file)
-    else:
-        print(line[:-1], file=output_file)
+		if line[0] == '>':
+			col = line.split("_")
+			header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
+			print(header, file=output_file)
+		else:
+			print(line[:-1], file=output_file)
 
 	input_file.close()
 	output_file.close()
