@@ -6,33 +6,6 @@ import sys
 #import argparse
 
 def map(mapstat_file, res_file, reads, output_path, sample_name, genus, min_barcodes):
-    ##Positional arguments and command lines options: 
-    #parser = argparse.ArgumentParser()
-
-    #Mapstat file input:
-    #parser.add_argument("mapstat_file", help='Path to mapstat file')
-
-    #Res file input:
-    #parser.add_argument("res_file", help='Path to res file')
-
-    #Total read count: 
-    #parser.add_argument("reads", type=int, help='Sample total reads')
-
-    #Output path:
-    #parser.add_argument("output_path", help='Output file folder')
-
-    #Sample name:
-    #parser.add_argument("sample_name", help='Sample name')
-
-    #Merge by genus or species: 
-    #parser.add_argument("-g", "--genus", help="Estimate the relative read abundance based on genus", default=True)
-
-    #Minimum number of barcodes to consider a result correct: 
-    #parser.add_argument("-b", "--barcodes", type=int, help="Minimum number of barcodes to consider a result a true positive", default=2)
-
-    #Argument parser:
-    #args = parser.parse_args()
-
     #Total read count from the sample: 
     total_read_count = reads
 
