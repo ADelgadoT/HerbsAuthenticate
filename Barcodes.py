@@ -11,6 +11,7 @@ import yaml
 #Update path and import scripts:
 sys.path.insert(0, "./scripts")
 import Prep_barcodes
+import header_std
 
 #Read config file and parse variables:
 with open("config.yaml", "r") as ymlfile:
@@ -31,3 +32,9 @@ for line in sample_data:
 	
 	execute_kma = subprocess.Popen(kma, shell=True)
 	execute_kma.communicate()
+
+	##Blastn validation
+
+
+	##Header standardization: 
+	header_std.header_std(fasta_file, specie_name, total_barcodes, output_dir)
