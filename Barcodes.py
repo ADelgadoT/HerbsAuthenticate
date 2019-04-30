@@ -7,11 +7,12 @@
 import sys
 import subprocess
 import yaml
+import pandas as pd
 
 #Update path and import scripts:
 sys.path.insert(0, "./scripts")
 import Prep_barcodes
-import header_std
+
 
 #Read config file and parse variables:
 with open("config.yaml", "r") as ymlfile:
@@ -30,16 +31,19 @@ for line in sample_data:
 	##Prepare kma script and execute it: 
 	kma = Prep_barcodes.prep_barcodes(col[0], col[1], col[2], "./scripts/barcodes_model.sh", kma_path, db_path, output_dir)
 	print(kma)
-	#execute_kma = subprocess.Popen(kma, shell=True)
-	#execute_kma.communicate()
+	execute_kma = subprocess.Popen(kma, shell=True)
+	execute_kma.communicate()
 
 	##Blastn validation
 	query_file = output_dir + '/' + col[2] + '_Barcodes.fsa'
 	blast = 'blastn -query ' + query_file + ' -db /home/databases/metagenomics/db/nt/nt -evalue 0.0001 -out ' + query_file + '.blastnt -outfmt 6 -max_target_seqs 1'
-	print(blast)
 
 	execute_blastn = subprocess.Popen(blast, shell=True)
 	execute_blastn.communicate()
 
+	blast_result = query_file + '.blastnt'
+	Prep_barcodes.tax_extraction(Prep_barcodes.blast_id_extraction(blast_result))
+ 
 	##Header standardization: 
-	#header_std.header_std(fasta_file, specie_name, total_barcodes, output_dir)
+	#Prep_barcodes.header_std(fasta_file, specie_name, total_barcodes, output_dir)
+

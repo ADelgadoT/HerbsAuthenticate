@@ -20,3 +20,48 @@ def prep_barcodes(path_forward_reads, path_reverse_reads, sample_name, kma_barco
     kma_script.close()
 
     return final
+
+def blast_id_extraction(blast_file):
+    blastn_results = pd.read_table(blast_file, header = None)
+
+    blastn = blastn_results.iloc[:,[0,1]].drop_duplicates()
+
+    label = blastn.iloc[:,1]
+    id_tax = list()
+
+    for individual_label in label: 
+        columns = individual_label.split('|')
+        id_tax.append(columns[3])
+
+    return id_tax
+
+def tax_extraction(blast_id):
+    fh = blast_id
+
+    for line in fh.readlines():
+        line = line.rstrip()
+        cmd = '/home/databases/metagenomics/scripts/get_kch.pl -i "%s" -d /home/databases/metagenomics/db/nt/nt.kch -I' % line
+        
+        subprocess.call(cmd, shell=True)
+
+
+    fh.close()
+
+def header_std(fasta_file, specie_name, total_barcodes, output_dir)
+    
+    #Import data and variables: 
+    input_file = open(fasta_file, 'r')
+    output_file = open(output_dir + '/' + specie_name + '_Final_Barcodes.fsa', 'w')
+    specie = specie_name
+    total_number_barcodes = str(total_barcodes)
+
+    for line in input_file: 
+    if line[0] == '>':
+        col = line.split("_")
+        header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
+        print(header, file=output_file)
+    else:
+        print(line[:-1], file=output_file)
+
+    input_file.close()
+    output_file.close()
