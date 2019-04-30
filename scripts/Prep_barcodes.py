@@ -28,26 +28,35 @@ def blast_id_extraction(blast_file):
     blastn = blastn_results.iloc[:,[0,1]].drop_duplicates()
 
     label = blastn.iloc[:,1]
+    id_fasta = blastn.iloc[:,0]
     id_tax = list()
 
     for individual_label in label: 
         columns = individual_label.split('|')
         id_tax.append(columns[3])
-
-    return id_tax
+    
+    return (id_fasta,id_tax)
 
 def tax_extraction(blast_id):
     import subprocess
+    
     fh = blast_id
+    output_id=list()
+    specie_id=list()
 
     for line in fh:
         line = line.rstrip()
         cmd = '/home/databases/metagenomics/scripts/get_kch.pl -i "%s" -d /home/databases/metagenomics/db/nt/nt.kch -I' % line
         
         proc = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE)
-    result = proc.stdout.read()
-    
-    return result
+        raw_result = proc.stdout.read().decode('utf-8')    
+        col = raw_result.split("\t")        
+
+        #Extract tax ID and specie:
+        output_id.append(col[0])
+        specie_id.append(col[13])	
+
+    return (output_id, specie_id)
 
 def header_std(fasta_file, specie_name, total_barcodes, output_dir):
     
