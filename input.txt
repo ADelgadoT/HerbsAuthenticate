@@ -1,1 +1,12 @@
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Ocimum_basilicum_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Ocimum_basilicum_2.fastq.gz Basil
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Glycyrrhiza_glabra_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Glycyrrhiza_glabra_2.fastq.gz Liquorice
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Capsicum_annum_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Capsicum_annum_2.fastq.gz Paprika
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Cinnamomum_verum_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Cinnamomum_verum_2.fastq.gz Cinnamon
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Thymus_vulgaris_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Thymus_vulgaris_2.fastq.gz Thyme
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Allium_sativum_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Allium_sativum_2.fastq.gz Garlic
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Solanum_lycopersicum_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Solanum_lycopersicum_2.fastq.gz Tomato
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Foeniculum_vulgare_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Foeniculum_vulgare_2.fastq.gz Fennel
 /home/projects/cge/analysis/plant_metagenomics/test_genomes/Vanilla_planifolia_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Vanilla_planifolia_2.fastq.gz Vanilla
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/Brassica_juncea_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/Brassica_juncea_2.fastq.gz Brown_mustard
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/all_meta_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/all_meta_2.fastq.gz All_Samples_Meta
+/home/projects/cge/analysis/plant_metagenomics/test_genomes/food_1.fastq.gz /home/projects/cge/analysis/plant_metagenomics/test_genomes/food_2.fastq.gz Food_1
