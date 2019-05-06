@@ -13,6 +13,7 @@ def map(mapstat_file, res_file, reads, output_path, sample_name, genus, min_barc
     #MAPSTAT file: 
     mapstat_infile = pd.read_csv(mapstat_file, sep = "\t", skiprows = range(0,6))
     mapstat_infile = mapstat_infile[["# refSequence", "readCount"]]
+    total_mapped_reads = raw_data["readCount"].sum(axis=0, skipna = True)
 
     #RES file: 
     res_infile = pd.read_csv(res_file, sep = "\t", usecols = ["#Template", "Score", "Template_Coverage", "Depth"])
@@ -81,10 +82,16 @@ def map(mapstat_file, res_file, reads, output_path, sample_name, genus, min_barc
     #Exclude data entries with only one identified barcode to avoid false positives:
     data_by_genus_no_single_barcode = data_by_genus[(data_by_genus["Number Barcodes"])>((min_barcodes-1))]
 
-    #Obtain the relative read count and sort: 
-    relative_read_abundance = [x / total_read_count for x in data_by_genus_no_single_barcode["readCount"]]
-    data_by_genus_no_single_barcode["Relative read abundance"] = relative_read_abundance
-    final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance"], ascending = False)
+    #Obtain the relative read count measures, add them to the dataframe and sort: 
+    relative_read_abundance_TR = [x / total_read_count for x in data_by_genus_no_single_barcode["readCount"]]
+    relative_read_abundance_MR = [x / total_mapped_reads for x in data_by_genus_no_single_barcode["readCount"]]
+    unmapped_reads_fraction = 1 - (total_mapped_reads / total_read_count)
+
+    data_by_genus_no_single_barcode["Relative read abundance (Total Reads)"] = relative_read_abundance_TR
+    data_by_genus_no_single_barcode["Relative read abundance (Mapped Reads)"] = relative_read_abundance_MR
+    data_by_genus_no_single_barcode["Fraction of unmapped reads"] = unmapped_reads_fraction
+    
+    final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance (Total Reads)"], ascending = False)
 
     ##Write final dataframe into a tab-separated file:
     output_name = output_path + '/' + sample_name + '_Results_Mapping.txt'
