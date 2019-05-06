@@ -58,7 +58,7 @@ def tax_extraction(blast_id):
 
     return (output_id, specie_id)
 
-def header_std(fasta_file, specie_name, total_barcodes, output_dir):
+def header_std(fasta_file, specie_name, total_barcodes, output_dir, valid_id):
     
 	#Import data and variables: 
 	input_file = open(fasta_file, 'r')
@@ -66,13 +66,26 @@ def header_std(fasta_file, specie_name, total_barcodes, output_dir):
 	specie = specie_name
 	total_number_barcodes = str(total_barcodes)
 
-	for line in input_file: 
+    #Iterate over the fasta file:
+	for line in input_file:
+
+        #Check if it is a header or not:
 		if line[0] == '>':
-			col = line.split("_")
-			header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
-			print(header, file=output_file)
+            if id_name != '':
+
+                #Std header and write it in the output:
+    			col = line.split("_")
+    			header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
+    			print(header, file=output_file)
+
+            #Extract header and validate:
+            id_name = line[1:]
+            if id_name not in valid_id:
+                id_name = ''
+
 		else:
-			print(line[:-1], file=output_file)
+            if id_name != '':
+		      print(line[:-1], file=output_file)
 
 	input_file.close()
 	output_file.close()
