@@ -45,14 +45,25 @@ for line in sample_data:
 	id_fasta, id_tax_1 = Prep_barcodes.blast_id_extraction(blast_result)
 	id_tax_2, specie = Prep_barcodes.tax_extraction(id_tax_1)
 
-	#Create dataframe to analyse results: 
-	validation = pd.DataFrame(list(zip(id_fasta, specie)))
+	#Correct specie: 
 	correct_specie = col[2].replace('_', ' ')	
 
-	#Create list of correct barcodes: 
-	correct_barcodes = validation.loc[:, specie]
-	print(correct_barcodes)
+	#Binary validation: 
+	binary_validation = list()
+	for individual_specie in specie: 
+		if individual_specie == correct_specie:
+			binary_validation.append(1)
+		else:
+			binary_validation.append(0)
 
-	##Header standardization: 
-	#Prep_barcodes.header_std(fasta_file, specie_name, total_barcodes, output_dir)
+	#DataFrame creation with validation results: - should it be an output? 
+	validation = pd.DataFrame(list(zip(id_fasta, specie, binary_validation)), columns=['ID', 'Specie', 'Validation'])
+
+
+	valid_id = list(validation.loc[validation['Validation'] == 1, 'ID'])
+	total_barcodes = len(valid_id)
+	print(valid_id, total_barcodes)
+
+	#Final barcodes fasta file generation + header std:  
+	#Prep_barcodes.header_std(fasta_file, specie_name, total_barcodes, output_dir, valid_id)
 
