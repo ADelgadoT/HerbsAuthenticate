@@ -21,6 +21,7 @@ with open("config.yaml", "r") as ymlfile:
 kma_path = cfg["path"].get("kma")
 output_dir = cfg["path"].get("output")
 db_path = cfg["path"].get("db_backbone")
+validation_factor = cfg["validation"].get("merge_by_genus")
 
 ##Initialize loop for all samples in input file: 
 sample_data = open(sys.argv[1], 'r')
@@ -46,24 +47,33 @@ for line in sample_data:
 	id_tax_2, specie = Prep_barcodes.tax_extraction(id_tax_1)
 
 	#Correct specie: 
-	correct_specie = col[2].replace('_', ' ')	
+	if validation_factor:
+		columns = col[2].split('_')
+		correct_specie = columns[0]
+	else:
+		correct_specie = col[2].replace('_', ' ')	
 
 	#Binary validation: 
 	binary_validation = list()
-	for individual_specie in specie: 
+	for individual_specie in specie:
+		if validation_factor:
+			get_genus = individual_specie.split()
+			individual_specie = get_genus[0]
+
 		if individual_specie == correct_specie:
 			binary_validation.append(1)
 		else:
 			binary_validation.append(0)
 
-	#DataFrame creation with validation results: - should it be an output? 
+	#DataFrame creation with validation results and output it:
 	validation = pd.DataFrame(list(zip(id_fasta, specie, binary_validation)), columns=['ID', 'Specie', 'Validation'])
+	validation_output = output_dir + '/' + col[2] + '_Validation.txt'
+	validation.to_csv(validation_output, sep = '\t')
 
 
 	valid_id = list(validation.loc[validation['Validation'] == 1, 'ID'])
 	total_barcodes = len(valid_id)
-	print(valid_id, total_barcodes)
-
+	
 	#Final barcodes fasta file generation + header std:  
-	#Prep_barcodes.header_std(fasta_file, specie_name, total_barcodes, output_dir, valid_id)
+	Prep_barcodes.header_std(query_file, col[2], total_barcodes, output_dir, valid_id)
 
