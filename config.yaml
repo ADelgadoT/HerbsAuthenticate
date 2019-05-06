@@ -10,3 +10,6 @@ reads:
 mapping:
   merge_by_genus: True
   min_barcodes: 2
+
+validation:
+  merge_by_genus: True
