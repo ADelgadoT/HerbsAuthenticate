@@ -67,19 +67,12 @@ def header_std(fasta_file, specie_name, total_barcodes, output_dir, valid_id):
 	total_number_barcodes = str(total_barcodes)
 	id_name = ''
 	valid_id = list(valid_id)
-	first_header = True	
 
 	#Iterate over the fasta file:
 	for line in input_file:
 
 	        #Check if it is a header or not:
 		if line[0] == '>':
-			if id_name != '':
-
-                	#Std header and write it in the output:
-				col = line.split("_")
-				header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
-				print(header, file=output_file)
 
 			#Extract header and validate:
 			id_name = line[1:-1]
@@ -87,12 +80,12 @@ def header_std(fasta_file, specie_name, total_barcodes, output_dir, valid_id):
 			if id_name not in valid_id:
 				id_name = ''
 			
-			elif first_header:
+			else:
 				#Std header and write it in the output:
 				col = line.split("_")
 				header = col[0] + '|' + specie + '|' + col[1][:-1] + '|' + total_number_barcodes
 				print(header, file=output_file)
-				first_header = False
+				
 		else:
 			if id_name != '':
 				print(line[:-1], file=output_file)
