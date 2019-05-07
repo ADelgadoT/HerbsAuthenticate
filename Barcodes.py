@@ -30,17 +30,17 @@ for line in sample_data:
 	col = line.split()
 
 	##Prepare kma script and execute it: 
-	#kma = Prep_barcodes.prep_barcodes(col[0], col[1], col[2], "./scripts/barcodes_model.sh", kma_path, db_path, output_dir)
-	#print(kma)
-	#execute_kma = subprocess.Popen(kma, shell=True)
-	#execute_kma.communicate()
+	kma = Prep_barcodes.prep_barcodes(col[0], col[1], col[2], "./scripts/barcodes_model.sh", kma_path, db_path, output_dir)
+	print("Executing KMA" + col[2])
+	execute_kma = subprocess.Popen(kma, shell=True)
+	execute_kma.communicate()
 
 	##Blastn validation
 	query_file = output_dir + '/' + col[2] + '_Barcodes.fsa'
-	#blast = 'blastn -query ' + query_file + ' -db /home/databases/metagenomics/db/nt/nt -evalue 0.0001 -out ' + query_file + '.blastnt -outfmt 6 -max_target_seqs 1'
-
-	#execute_blastn = subprocess.Popen(blast, shell=True)
-	#execute_blastn.communicate()
+	blast = 'blastn -query ' + query_file + ' -db /home/databases/metagenomics/db/nt/nt -evalue 0.0001 -out ' + query_file + '.blastnt -outfmt 6 -max_target_seqs 1'
+	print("Executing Blastn")
+	execute_blastn = subprocess.Popen(blast, shell=True)
+	execute_blastn.communicate()
 
 	blast_result = query_file + '.blastnt'
 	id_fasta, id_tax_1 = Prep_barcodes.blast_id_extraction(blast_result)
@@ -54,6 +54,7 @@ for line in sample_data:
 		correct_specie = col[2].replace('_', ' ')	
 
 	#Binary validation: 
+	print("Validation in process")
 	binary_validation = list()
 	for individual_specie in specie:
 		if validation_factor:
