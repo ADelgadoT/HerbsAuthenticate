@@ -91,7 +91,7 @@ def map(mapstat_file, res_file, reads, output_path, sample_name, genus, min_barc
     data_by_genus_no_single_barcode["Relative read abundance (Mapped Reads)"] = relative_read_abundance_MR
     data_by_genus_no_single_barcode["Fraction of unmapped reads"] = unmapped_reads_fraction
     
-    final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance (Total Reads)"], ascending = False)
+    final_results = data_by_genus_no_single_barcode.sort_values(by=["Relative read abundance (Mapped Reads)"], ascending = False)
 
     ##Write final dataframe into a tab-separated file:
     output_name = output_path + '/' + sample_name + '_Results_Mapping.txt'
