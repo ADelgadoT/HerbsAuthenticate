@@ -17,6 +17,26 @@ Before aligning reads with KMA, the database must be indexed. This is done with 
 The default k-mer size is 16. In case you want to change it, please add the option `-k` followed by the desired k-mer size. 
 
 ## Extract barcodes
+The script `Barcodes.py` is used to obtain the barcodes from the trimmed reads. In order to execute it, please follow the steps indicated below: 
+
+1. Create an input file, using `input.txt` as an example. It is a space-separated file in which each line represents the data from one sample. There are three columns: 
+    - Column 1: absolute path to forward reads
+    - Column 2: absolute path to reverse reads
+    - Column 3: scientic sample name (Binomial nomenclature)
+   
+2. Ensure that `config.yaml` is located in the same directory as `Barcodes.py` and the `scripts` folder. 
+3. Update `config.yaml` parameters according to your data and type of analysis you want to perform. The options available are shown below:
+
+    **Path**:
+      - kma: Absolute path to KMA directory.
+      - db_backbone: Absolute path to indexed backbone barcode database.
+      - output: Absolute path to output directory. 
+
+    **Validation**:
+      - merge_by_genus: boolean variable that indicates whether the validation
+is at genus or specie level. Default value: TRUE.
+
+4. Excute the following command: `python3 Barcodes.py input.txt`
 
 ## Mapping
 To map trimmed reads against a specific barcode database, the script `Mapping.py` is used. In order to execute it, please follow the steps indicated below: 
@@ -41,7 +61,6 @@ To map trimmed reads against a specific barcode database, the script `Mapping.py
       - merge_by_genus: boolean variable that indicates whether the identification
 is at genus or specie level. Default value: TRUE. 
       - min_barcodes: Minimum number of identitifed barcodes from a genus or specie to be considered as a true positive. Default value: 2.
-
 
 4. Excute the following command: `python3 Mapping.py input.txt`
 
